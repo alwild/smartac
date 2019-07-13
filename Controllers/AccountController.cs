@@ -52,7 +52,7 @@ public class AccountController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Register()
+    public IActionResult Register()
     {
         return View();
     }
