@@ -32,7 +32,7 @@ namespace smartacfe.Services
                 RegistrationDate = DateTime.Now,
                 AccessKey = accessKey.ToString()
             });
-            _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
             return registered.Entity;
         }
 
