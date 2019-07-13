@@ -23,7 +23,7 @@ def mock_readings(access_key):
         readings = [
                {
                    "Temperature": random_decimal(20, 30),
-                   "COLevel": random_decimal(0, 10),
+                   "COLevel": random_decimal(0, 15),
                    "HealthStatus": random_choice(["needs_service", "needs_filter", "gas_leak", "online"]),
                    "Humidity": random_decimal(0, 100),
                    "ReadingDateTime": random_date().isoformat()

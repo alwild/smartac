@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,6 +17,7 @@ namespace smartacfe.Data
         public DbSet<smartacfe.Models.ACDevice> ACDevices { get; set; }
         public DbSet<smartacfe.Models.ACDeviceReading> AcDeviceReadings { get; set; }
         public DbSet<smartacfe.Models.User> Users { get; set; }
+        public DbSet<smartacfe.Models.ACDeviceAlert> ACDeviceAlerts { get; set; }
         
         protected override void OnModelCreating(ModelBuilder builder)
         {

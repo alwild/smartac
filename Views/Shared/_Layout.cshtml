@@ -32,6 +32,18 @@
     </div>
 </nav>
 <div class="container body-content">
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div id="device-notifications" style="display: none">
+            <h2>The following devices have alerts</h2>
+            <div class="container alert" id="device-notifications-list">
+
+            </div>
+            <div class="d-flex flex-row-reverse">
+                <button class="btn btn-danger" id="clear-all-notifications">Clear All</button>
+            </div>
+        </div>
+    }
     @RenderBody()
 </div>
 
@@ -39,7 +51,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js" integrity="sha256-4iQZ6BVL4qNKlQ27TExEhBN1HFPvAvAMbFavKKosSWQ=" crossorigin="anonymous"></script>
-@RenderSection("Scripts", required: false)
+@if (User.Identity.IsAuthenticated)
+{
+    await Html.RenderPartialAsync("_DeviceNotifications");
+}
 
+@RenderSection("Scripts", required: false)
 </body>
 </html>

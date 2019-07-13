@@ -37,6 +37,28 @@ namespace smartacfe.Services
                 .SingleOrDefaultAsync(d => d.ID == ID);
         }
 
+        public async Task<IEnumerable<ACDeviceAlert>> GetUnClearedAlerts()
+        {
+            return await _context.ACDeviceAlerts.Where(a => a.Cleared == false)
+                .Include(d => d.Device)
+                .ToListAsync();
+        }
+
+        public async Task ClearAllAlerts()
+        {
+            await _context.Database.ExecuteSqlCommandAsync("UPDATE ACDeviceAlerts SET Cleared=1");
+        }
+
+        public async Task ClearAlert(int ID)
+        {
+            var alert = await _context.ACDeviceAlerts.SingleOrDefaultAsync(a => a.ID == ID);
+            if (alert != null)
+            {
+                alert.Cleared = true;
+                await _context.SaveChangesAsync();
+            }
+        }
+        
         public async Task<IEnumerable<DateTimeDataPoint>> GetHourlyAveragesForDay(int ID, DateTime date)
         {
             var start = date.Date;
@@ -51,7 +73,7 @@ namespace smartacfe.Services
                 })
                 .OrderBy(i => i.x);
         }
-       
+        
         public async Task<IEnumerable<DateTimeDataPoint>> GetDailyAveragesForRange(int ID, DateTime start, DateTime end)
         {
             var endInclusive = end.Date.AddDays(1).Date;

@@ -68,7 +68,7 @@ namespace smartacfe
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller}/{action=Index}/{id?}");
+                    template: "{controller=AdminPortal}/{action=Index}/{id?}");
             });
         }
     }

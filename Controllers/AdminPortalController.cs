@@ -63,5 +63,23 @@ namespace smartacfe.Controllers
                     DateTime.Today)
             });
         }
+
+        public async Task<IActionResult> GetNotifications()
+        {
+            var notifications = await _deviceService.GetUnClearedAlerts();
+            return Json(notifications);
+        }
+
+        public async Task<IActionResult> ClearNotification(int id)
+        {
+            await _deviceService.ClearAlert(id);
+            return Json(new {result = "success"});
+        }
+
+        public async Task<IActionResult> ClearAllNotifications()
+        {
+            await _deviceService.ClearAllAlerts();
+            return Json(new {result = "success"});
+        }
     }
 }

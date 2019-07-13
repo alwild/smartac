@@ -1,0 +1,45 @@
+﻿
+
+<script>
+    $(document).ready(() => {
+        checkNotifications = () => {
+            $.getJSON("/AdminPortal/GetNotifications",
+                (notifications) => {
+                    if (notifications.length > 0) {
+                        var container = $('#device-notifications-list');
+                        container.html('');
+
+                        notifications.map(notification => {
+                            var device = notification.device;
+                            var notification_text = (notification.alertType === 1) ? "CO Level" : "Health Check";
+                            container.append("<div class='row alert alert-danger' data-alert-id='" + notification.id + "'><div class='col'><a href='/AdminPortal/Device/" + device.id + "'>" + device.serialNumber + "</a>" + " - " + notification_text + "</div><div class='col d-flex flex-row-reverse'><button type='button' class='clear-alert btn btn-default' data-alert-id='" + notification.id + "'>Clear</button></div></div>");
+                        });
+
+                        $('#device-notifications').show();
+                    }
+                });
+        }
+
+        setInterval(() => checkNotifications(), 10000);
+
+
+        $('#device-notifications-list').on('click', 'button',
+            (event) => {
+                var button = $(event.target);
+                var alert_id = button.attr("data-alert-id");
+                $('.alert[data-alert-id=' + alert_id + "]").hide();
+                $.getJSON("/AdminPortal/ClearNotification/" + alert_id,
+                    (response) => {
+                        console.log(resposne);
+                    });
+            });
+
+        $('#clear-all-notifications').click(() => {
+            $('#device-notifications').hide();
+            $.getJSON("/AdminPortal/ClearAllNotifications",
+                (response) => {
+                    console.log(response);
+                });
+        });
+    });
+</script>

@@ -1,7 +1,7 @@
 ﻿@model smartacfe.Models.DeviceDetailsViewModel
 
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = "Device";
     Layout = "_Layout";
 }
 
@@ -159,7 +159,6 @@
 
         $.getJSON('/AdminPortal/Device/@Model.Device.ID/Stats',
             (dataAverages) => {
-                console.log("stats", dataAverages);
                 var charts = [
                     {
                         type: "temperature",
@@ -180,7 +179,6 @@
                 
                 
                 charts.forEach(chartOptions => {
-                    console.log("chartType", chartOptions);
                     var chartType = chartOptions.type;
                     var chartLabel = chartOptions.label;
                     var todayCtx = document.getElementById(chartType + '-today').getContext('2d');
@@ -259,7 +257,6 @@
                 });
         
     });
-
 
     </script>
 }
