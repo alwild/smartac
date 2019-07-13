@@ -11,7 +11,7 @@
 </p>
 <p>Example request:
     <code style="white-space: nowrap">
-        curl 'https://smartacfe2.azurewebsites.net/api/register' -X POST --data '{"SerialNumber": SERIAL_NUMBER, "FirmwareVersion": FIRMWARE_VERSION}'
+        curl 'https://f5hzniyb85.execute-api.us-east-1.amazonaws.com/smartac_dev/api/register/' -X POST --data '{"serial_number": SERIAL_NUMBER, "firmware_version": FIRMWARE_VERSION}'
     </code>
 </p>
 
@@ -21,10 +21,10 @@
 {
     "response": "success",
     "device": {
-            "SerialNumber": SERIAL_NUMBER,
-            "FirmwareVersion": FIRMWARE_VERSION,
-            "RegistrationDate": "YYYY-MM-DD",
-            "AccessKey": YOUR_NEW_ACCESS_KEY
+            "serial_number": SERIAL_NUMBER,
+            "firmware_version": FIRMWARE_VERSION,
+            "registration_date": "YYYY-MM-DD",
+            "access_key": YOUR_NEW_ACCESS_KEY
     }
 }
 </pre>
@@ -35,33 +35,33 @@
 <p>To record data for the device send an HTTP POST with the data in a JSON array.</p>
 <p>Example request:
     <code style="white-space: nowrap">
-        curl 'https://smartacfe2.azurewebsites.net/api/reading' -X POST -H 'x-access-key: YOUR_ACCESS_KEY' -d @@readingdata.json
+        curl 'https://f5hzniyb85.execute-api.us-east-1.amazonaws.com/smartac_dev/api/reading' -X POST -H 'x-access-key: YOUR_ACCESS_KEY' -d @@readingdata.json
     </code>
 </p>
 <p>Example request body / readingdata.json</p>
 <pre>
 [
     {
-        "Temperature": 22.32,
-        "COLevel": 10,
-        "HealthStatus": "ONLINE",
-        "Humidity": 10.43,
-        "ReadingDateTime": "2019-07-12T12:01:00Z"
+        "temperature": 22.32,
+        "co_level": 10,
+        "health_status": "ONLINE",
+        "humidity": 10.43,
+        "timestamp": "2019-07-12T12:01:00Z"
     },
     {
-        "Temperature": 25.00,
-        "COLevel": 12,
-        "HealthStatus": "ERROR",
-        "Humidity": 10.43,
-        "ReadingDateTime": "2019-07-12T12:01:01Z"
+        "temperature": 25.00,
+        "co_level": 12,
+        "health_status": "ERROR",
+        "humidity": 10.43,
+        "timestamp": "2019-07-12T12:01:01Z"
     },
         {
-        "Temperature": 22.31,
-        "COLevel": 10,
-        "HealthStatus": "HEALTHY",
-        "Humidity": 10.43,
-        "ReadingDateTime": "2019-07-12T12:01:00Z"
-    }
+        "temperature": 22.31,
+        "co_level": 10,
+        "health_status": "HEALTHY",
+        "humidity": 10.43,
+        "timestamp": "2019-07-12T12:01:00Z"
+    },
 ]
 </pre>
 <h5>Field Definition</h5>
