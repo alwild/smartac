@@ -12,10 +12,5 @@ namespace smartacfe.Controllers
         {
             return View();
         }
-
-        public IActionResult ApiUsage()
-        {
-            return View();
-        }
     }
 }
