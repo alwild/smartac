@@ -22,6 +22,10 @@ namespace smartacfe.Data
             builder.Entity<Models.User>()
                 .HasIndex(u => u.Username)
                 .IsUnique();
+            
+            builder.Entity<Models.ACDevice>()
+                .HasIndex(u => u.SerialNumber)
+                .IsUnique();
         }
     }
 }
