@@ -37,7 +37,7 @@ namespace smartacfe
             services.AddMvc();
 
             services.AddDbContext<DBContext>(options =>
-                options.UseNpgsql(Configuration.GetConnectionString("sqldb")));
+                options.UseSqlServer(Configuration.GetConnectionString("sqldb")));
             services.AddScoped<APIService>();
             services.AddScoped<UserService>();
         }
