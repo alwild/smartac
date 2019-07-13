@@ -35,9 +35,9 @@ namespace smartacfe
             
             // Add framework services.
             services.AddMvc();
-            
+
             services.AddDbContext<DBContext>(options =>
-                options.UseSqlite("Data Source=localdatabase.db"));
+                options.UseNpgsql(Configuration.GetConnectionString("sqldb")));
             services.AddScoped<APIService>();
             services.AddScoped<UserService>();
         }
