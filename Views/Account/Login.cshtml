@@ -1,6 +1,25 @@
-﻿@{
-    ViewBag.Title = "title";
+﻿@model smartacfe.Models.LoginViewModel
+
+@{
+    ViewBag.Title = "Login";
     Layout = "_Layout";
 }
 
-<h2>title</h2>
+<form asp-controller="Account" asp-action="Login" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-control">
+        <span class="field-validation-valid"
+              data-valmsg-for="Email"
+              data-valmsg-replace="true"></span>
+        <label asp-for="Email"></label>
+        <input asp-for="Email"/>
+    </div>
+    <div class="form-control">
+        <span class="field-validation-valid"
+              data-valmsg-for="Password"
+              data-valmsg-replace="true"></span>
+        <label asp-for="Password"></label>
+        <input asp-for="Password"/>
+    </div>
+    <button type="submit">Login</button>
+</form>

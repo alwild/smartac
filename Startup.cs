@@ -40,7 +40,6 @@ namespace smartacfe
                 options.UseSqlServer(Configuration.GetConnectionString("sqldb")));
             services.AddScoped<APIService>();
             services.AddScoped<UserService>();
-            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,6 +59,8 @@ namespace smartacfe
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            app.UseAuthentication();
+            
             app.UseStaticFiles();
 
             app.UseMvc(routes =>

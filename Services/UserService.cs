@@ -32,7 +32,7 @@ namespace smartacfe.Services
                 FirstName = firstName,
                 LastName = lastName
             });
-
+            await _db.SaveChangesAsync();
             return created.Entity;
         }
         
