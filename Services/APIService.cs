@@ -37,10 +37,14 @@ namespace smartacfe.Services
         }
 
 
-        public async void RecordReadings(IEnumerable<ACDeviceReading> readings)
+        public void RecordReadings(IEnumerable<ACDeviceReading> readings)
         {
-            await _context.AddRangeAsync(readings);
-            await _context.SaveChangesAsync();
+            // I've got something setup wrong somewhere.  When I hit the api with a lot of requests, I get 
+            // System.InvalidOperationException: Invalid operation. The connection is closed.
+            // in the logs
+            _context.Database.BeginTransaction();
+            _context.AddRange(readings);
+            _context.SaveChanges();
         }
 
         public async Task<ACDevice> GetACDeviceByAccessKey(string AccessKey)

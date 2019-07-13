@@ -1,0 +1,268 @@
+﻿@model smartacfe.Models.DeviceDetailsViewModel
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>Device</h2>
+<p>
+    <label>Serial Number</label>
+    <span>@Model.Device.SerialNumber</span>
+</p>
+
+@if (Model.LatestReading != null)
+{
+    <div>
+        <h3>Latest Reading</h3>
+        <div>
+            <div>
+                <label>Status</label>
+                <span>@Model.LatestReading.HealthStatus</span>
+            </div>
+            <div>
+                <label>Temperature</label>
+                <span>@Model.LatestReading.Temperature &deg;C</span>
+            </div>
+            <div>
+                <label>Humidity</label>
+                <span>@Model.LatestReading.Humidity %</span>
+            </div>
+            <div>
+                <label>CO Level</label>
+                <span>@Model.LatestReading.COLevel</span>
+            </div>
+            <div>
+                <label>Last Reading Date</label>
+                <span>@Model.LatestReading.ReadingDateTime</span>
+            </div>
+        </div>
+    </div>
+}
+
+<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="pills-temp-tab" data-toggle="pill" href="#pills-temp" role="tab" aria-controls="pills-temp" aria-selected="true">Temperature</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="pills-humidity-tab" data-toggle="pill" href="#pills-humidity" role="tab" aria-controls="pills-humidity" aria-selected="false">Humidity</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="pills-co-level-tab" data-toggle="pill" href="#pills-co-level" role="tab" aria-controls="pills-co-level" aria-selected="false">CO Level</a>
+    </li>
+</ul>
+<div class="tab-content" id="pills-tabContent">
+    <div class="tab-pane fade show active" id="pills-temp" role="tabpanel" aria-labelledby="pills-temp-tab">
+        <div>
+            <div class="row">
+                <div class="col-md-6">
+                    <canvas id="temperature-today" width="400" height="400"></canvas>
+                </div>
+                <div class="col-md-6">
+                    <canvas id="temperature-week" width="400" height="400"></canvas>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <canvas id="temperature-month" width="400" height="400"></canvas>
+                </div>
+                <div class="col-md-6">
+                    <canvas id="temperature-year" width="400" height="400"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="pills-humidity" role="tabpanel" aria-labelledby="pills-humidity-tab">
+        <div>
+            <div class="row">
+                <div class="col-md-6">
+                    <canvas id="humidity-today" width="400" height="400"></canvas>
+                </div>
+                <div class="col-md-6">
+                    <canvas id="humidity-week" width="400" height="400"></canvas>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <canvas id="humidity-month" width="400" height="400"></canvas>
+                </div>
+                <div class="col-md-6">
+                    <canvas id="humidity-year" width="400" height="400"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="pills-co-level" role="tabpanel" aria-labelledby="pills-co-level-tab">
+        <div>
+            <div class="row">
+                <div class="col-md-6">
+                    <canvas id="colevel-today" width="400" height="400"></canvas>
+                </div>
+                <div class="col-md-6">
+                    <canvas id="colevel-week" width="400" height="400"></canvas>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <canvas id="colevel-month" width="400" height="400"></canvas>
+                </div>
+                <div class="col-md-6">
+                    <canvas id="colevel-year" width="400" height="400"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js"></script>
+    <script>
+        function getChartOptions(title, unit, dataLabel, data) {
+            return {
+                type: 'line',
+                data: data,
+                options: {
+                    responsive: true,
+                    title: {
+                        display: true,
+                        text: title
+                    },
+                    legend: {
+                        display: false
+                    },
+                    fill: false,
+                    scales: {
+                        xAxes: [
+                            {
+                                type: 'time',
+                                time: {
+                                    unit: unit
+                                }
+                            }
+                        ],
+                        yAxes: [
+                            {
+                                display: true,
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: dataLabel
+                                }
+                            }
+                        ]
+                    }
+                }
+            };
+        }
+
+        $.getJSON('/AdminPortal/Device/@Model.Device.ID/Stats',
+            (dataAverages) => {
+                console.log("stats", dataAverages);
+                var charts = [
+                    {
+                        type: "temperature",
+                        label: "Average Temperature (C)",
+                        color: 'rgb(54, 162, 235)'
+                    },
+                    {
+                        type: "humidity",
+                        label: "Average Humidity %",
+                        color: 'rgb(54, 162, 235)'
+                    },
+                    {
+                        type: "colevel",
+                        label: "Average COLevel PPM",
+                        color: 'rgb(54, 162, 235)'
+                    }
+                ];
+                
+                
+                charts.forEach(chartOptions => {
+                    console.log("chartType", chartOptions);
+                    var chartType = chartOptions.type;
+                    var chartLabel = chartOptions.label;
+                    var todayCtx = document.getElementById(chartType + '-today').getContext('2d');
+                    var weekCtx = document.getElementById(chartType + '-week').getContext('2d');
+                    var monthCtx = document.getElementById(chartType + '-month').getContext('2d');
+                    var yearCtx = document.getElementById(chartType + '-year').getContext('2d');
+                    
+                    new Chart(todayCtx,
+                        getChartOptions("Today",
+                            "hour",
+                            chartLabel,
+                            {
+                                datasets: [
+                                    {
+                                        backgroundColor: 'rgb(54, 162, 235)',
+                                        borderColor: 'rgb(54, 162, 235)',
+                                        fill: false,
+                                        data: dataAverages.today.map(d => {
+                                            return { x: d.x, y: d[chartType] }
+                                        })
+                                    }
+                                ]
+                            }));
+                    
+                    new Chart(weekCtx,
+                        getChartOptions("This Week",
+                            "day",
+                            chartLabel,
+                            {
+                                datasets: [
+                                    {
+                                        backgroundColor: 'rgb(245, 93, 66)',
+                                        borderColor: 'rgb(245, 93, 66)',
+                                        fill: false,
+                                        data: dataAverages.thisWeek.map(d => {
+                                            return { x: d.x, y: d[chartType] }
+                                        })
+                                    }
+                                ]
+                            }));
+                    
+                    new Chart(monthCtx,
+                        getChartOptions("This Month",
+                            "day",
+                            chartLabel,
+                            {
+                                datasets: [
+                                    {
+                                        backgroundColor: 'rgb(90, 150, 50)',
+                                        borderColor: 'rgb(90, 150, 50)',
+                                        fill: false,
+                                        data: dataAverages.thisMonth.map(d => {
+                                            return { x: d.x, y: d[chartType] }
+                                        })
+                                    }
+                                ]
+                            }));
+                    
+                    new Chart(yearCtx,
+                        getChartOptions("This Year",
+                            "month",
+                            chartLabel,
+                            {
+                                datasets: [
+                                    {
+                                        backgroundColor: 'rgb(197, 201, 71)',
+                                        borderColor: 'rgb(197, 201, 71)',
+                                        fill: false,
+                                        data: dataAverages.thisYear.map(d => {
+                                            return { x: d.x, y: d[chartType] }
+                                        })
+                                    }
+                                ]
+                            }));
+                    
+                });
+        
+    });
+
+
+    </script>
+}
+
+@section Styles
+{
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.css">   
+}

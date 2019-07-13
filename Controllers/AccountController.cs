@@ -25,6 +25,7 @@ public class AccountController : Controller
     }
  
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Login(LoginViewModel login)
     {
         if (ModelState.IsValid)
@@ -58,6 +59,7 @@ public class AccountController : Controller
 
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Register(RegisterViewModel register)
     {
         try

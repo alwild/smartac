@@ -1,6 +1,34 @@
-﻿@{
+﻿@model smartacfe.Models.DashboardViewModel
+
+@{
     ViewBag.Title = "Admin Portal";
     Layout = "_Layout";
 }
 
-<h2>title</h2>
+<h2>Admin Portal</h2>
+<form method="get">
+    <input class="form-control" name="filter" value="@Model.Search"/><input type="submit" value="Search" />
+</form>
+
+
+<table>
+    <thead>
+    <tr>
+        <th>Serial Number</th>
+        <th>Firmware Version</th>
+        <th>Registration Date</th>
+        <th>Access Key</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var device in Model.Devices)
+    {
+        <tr>
+            <td><a asp-action="Device" asp-route-id="@device.ID">@device.SerialNumber</a></td>
+            <td>@device.FirmwareVersion</td>
+            <td>@device.RegistrationDate</td>
+            <td>@device.AccessKey</td>
+        </tr> 
+    }
+    </tbody>
+</table>
