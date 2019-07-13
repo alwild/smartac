@@ -7,7 +7,7 @@
 
 <h2>Device</h2>
 <p>
-    <label>Serial Number</label>
+    <label class="font-weight-bold">Serial Number:</label>
     <span>@Model.Device.SerialNumber</span>
 </p>
 
@@ -15,25 +15,27 @@
 {
     <div>
         <h3>Latest Reading</h3>
-        <div>
-            <div>
-                <label>Status</label>
+        <div class="row">
+            <div class="col-3">
+                <label class="font-weight-bold">Status:</label>
                 <span>@Model.LatestReading.HealthStatus</span>
             </div>
-            <div>
-                <label>Temperature</label>
+            <div class="col-3">
+                <label class="font-weight-bold">Temperature:</label>
                 <span>@Model.LatestReading.Temperature &deg;C</span>
             </div>
-            <div>
-                <label>Humidity</label>
+            <div class="col-3">
+                <label class="font-weight-bold">Humidity:</label>
                 <span>@Model.LatestReading.Humidity %</span>
             </div>
-            <div>
-                <label>CO Level</label>
-                <span>@Model.LatestReading.COLevel</span>
+        </div>
+        <div class="row">
+            <div class="col-3">
+                <label class="font-weight-bold">CO Level:</label>
+                <span>@Model.LatestReading.COLevel ppm</span>
             </div>
-            <div>
-                <label>Last Reading Date</label>
+            <div class="col-4">
+                <label class="font-weight-bold">Last Reading Time:</label>
                 <span>@Model.LatestReading.ReadingDateTime</span>
             </div>
         </div>
@@ -54,7 +56,7 @@
 <div class="tab-content" id="pills-tabContent">
     <div class="tab-pane fade show active" id="pills-temp" role="tabpanel" aria-labelledby="pills-temp-tab">
         <div>
-            <div class="row">
+            <div class="row mb-5">
                 <div class="col-md-6">
                     <canvas id="temperature-today" width="400" height="400"></canvas>
                 </div>
@@ -74,7 +76,7 @@
     </div>
     <div class="tab-pane fade" id="pills-humidity" role="tabpanel" aria-labelledby="pills-humidity-tab">
         <div>
-            <div class="row">
+            <div class="row mb-5">
                 <div class="col-md-6">
                     <canvas id="humidity-today" width="400" height="400"></canvas>
                 </div>
@@ -94,7 +96,7 @@
     </div>
     <div class="tab-pane fade" id="pills-co-level" role="tabpanel" aria-labelledby="pills-co-level-tab">
         <div>
-            <div class="row">
+            <div class="row mb-5">
                 <div class="col-md-6">
                     <canvas id="colevel-today" width="400" height="400"></canvas>
                 </div>

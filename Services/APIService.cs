@@ -21,7 +21,7 @@ namespace smartacfe.Services
 
             if (device != null)
             {
-                //TODO:: raise an exception
+                throw new Exception("Device already registered");
             }
 
             var accessKey = Guid.NewGuid();
@@ -37,14 +37,11 @@ namespace smartacfe.Services
         }
 
 
-        public void RecordReadings(IEnumerable<ACDeviceReading> readings)
+        public async Task RecordReadings(IEnumerable<ACDeviceReading> readings)
         {
-            // I've got something setup wrong somewhere.  When I hit the api with a lot of requests, I get 
-            // System.InvalidOperationException: Invalid operation. The connection is closed.
-            // in the logs
-            _context.Database.BeginTransaction();
-            _context.AddRange(readings);
-            _context.SaveChanges();
+            await _context.Database.BeginTransactionAsync();
+            await _context.AddRangeAsync(readings);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<ACDevice> GetACDeviceByAccessKey(string AccessKey)

@@ -30,23 +30,40 @@ namespace smartacfe.Controllers
         public async Task<IActionResult> Register([Bind("SerialNumber,FirmwareVersion")] [FromBody] ACDevice device)
         {
             var newDevice = await _apiService.RegisterDevice(device.SerialNumber, device.FirmwareVersion);
-            return Json(newDevice);
+            return Json(new
+            {
+                response = "success",
+                device = new
+                {
+                    SerialNumber = newDevice.SerialNumber,
+                    FirmwareVersion = newDevice.FirmwareVersion,
+                    RegistrationDate = newDevice.RegistrationDate,
+                    AccessKey = newDevice.AccessKey
+                }
+            });
         }
 
         [HttpPost]
         public async Task<IActionResult> Reading([FromBody] IEnumerable<ACDeviceReading> readings)
         {
-            //TODO:  check for missing keys
+            if (!this.Request.Headers.ContainsKey("x-access-key"))
+            {
+                return new ForbidResult();
+            }
             var accessKey = this.Request.Headers["x-access-key"];
             var device = await _apiService.GetACDeviceByAccessKey(accessKey);
+
+            if (device == null)
+            {
+                return new NotFoundResult();
+            }
             
-            //TODO: raise missing device exception
             readings.ToList().ForEach(i =>
             {
                 i.ACDevice = device;
                 i.LoggedDateTime = DateTime.Now;
             });
-            _apiService.RecordReadings(readings);
+            await _apiService.RecordReadings(readings);
             return Json(new {response = "success"});
         }
     }

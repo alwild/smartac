@@ -3,21 +3,22 @@
     Layout = "_Layout";
 }
 
-<h1>Smart AC Usage</h1>
+<h1 class="text-center">Smart AC Usage</h1>
 <h3>Registering your device</h3>
-<p>Before a smart ac unit can send data readings to the Smart AC system, it must register itself and get an access key.</p>
-<p>
-    To register, send an HTTP POST, with the Serial Number and Firmware version.  If the device is successfully registered, the response will contain an access key that must be used when sending readings.
-</p>
-<p>Example request:
-    <code style="white-space: nowrap">
-        curl 'https://smartacfe2.azurewebsites.net/api/register' -X POST --data '{"SerialNumber": SERIAL_NUMBER, "FirmwareVersion": FIRMWARE_VERSION}'
-    </code>
-</p>
+<div class="pl-5">
+    <p>Before a smart ac unit can send data readings to the Smart AC system, it must register itself and get an access key.</p>
+    <p>
+        To register, send an HTTP POST, with the Serial Number and Firmware version.  If the device is successfully registered, the response will contain an access key that must be used when sending readings.
+    </p>
+    <p>Example request:
+        <code style="white-space: nowrap">
+            curl 'https://smartacfe2.azurewebsites.net/api/register' -X POST --data '{"SerialNumber": SERIAL_NUMBER, "FirmwareVersion": FIRMWARE_VERSION}'
+        </code>
+    </p>
 
-<p>Example response:</p>
-<code style="white-space: nowrap">
-<pre>
+    <p>Example response:</p>
+    <code style="white-space: nowrap">
+        <pre>
 {
     "response": "success",
     "device": {
@@ -28,18 +29,19 @@
     }
 }
 </pre>
-</code>
-
-<h3>Recording Readings</h3>
-<p>After the device has been registered, it can start sending readings.</p>
-<p>To record data for the device send an HTTP POST with the data in a JSON array.</p>
-<p>Example request:
-    <code style="white-space: nowrap">
-        curl 'https://smartacfe2.azurewebsites.net/api/reading' -X POST -H 'x-access-key: YOUR_ACCESS_KEY' -d @@readingdata.json
     </code>
-</p>
-<p>Example request body / readingdata.json</p>
-<pre>
+</div>
+<h3>Recording Readings</h3>
+<div class="pl-5">
+    <p>After the device has been registered, it can start sending readings.</p>
+    <p>To record data for the device send an HTTP POST with the data in a JSON array.</p>
+    <p>Example request:
+        <code style="white-space: nowrap">
+            curl 'https://smartacfe2.azurewebsites.net/api/reading' -X POST -H 'x-access-key: YOUR_ACCESS_KEY' -d @@readingdata.json
+        </code>
+    </p>
+    <p>Example request body / readingdata.json</p>
+    <pre>
 [
     {
         "Temperature": 22.32,
@@ -64,23 +66,21 @@
     }
 ]
 </pre>
-<h5>Field Definition</h5>
- <dl class="dl-horizontal">
-    <dt>temperature</dt>
-    <dd>Decimal: Temperature in Celsius</dd>
+    <h5>Field Definition</h5>
+    <dl class="dl-horizontal pl-5">
+        <dt>Temperature</dt>
+        <dd>Decimal: Temperature in Celsius</dd>
 
-    <dt>humidity</dt>
-    <dd>Decimal: Air humidity percentage.  Don't include the % character</dd>
+        <dt>Humidity</dt>
+        <dd>Decimal: Air humidity percentage.  Don't include the % character</dd>
 
-    <dt>co_level</dt>
-    <dd>Carbon Monoxide Levels, PPM</dd>
+        <dt>COlevel</dt>
+        <dd>Carbon Monoxide Levels, PPM</dd>
 
-    <dt>health_status</dt>
-    <dd>String, up to 150 characters, representing the status of the device</dd>
+        <dt>HealthStatus</dt>
+        <dd>String, up to 150 characters, representing the status of the device</dd>
 
-    <dt>timestamp</dt>
-     <dd>ISO formatted time of the reading.</dd>
-     
-     
-     
- </dl>
+        <dt>ReadingDateTime</dt>
+        <dd>ISO formatted time of the reading.</dd>
+    </dl>
+</div>
