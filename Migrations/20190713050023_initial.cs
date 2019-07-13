@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace smartacfe.Migrations
@@ -12,9 +13,9 @@ namespace smartacfe.Migrations
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    SerialNumber = table.Column<string>(nullable: true),
-                    FirmwareVersion = table.Column<string>(nullable: true),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    SerialNumber = table.Column<string>(nullable: false),
+                    FirmwareVersion = table.Column<string>(nullable: false),
                     RegistrationDate = table.Column<DateTime>(nullable: false),
                     AccessKey = table.Column<string>(nullable: true)
                 },
@@ -28,7 +29,7 @@ namespace smartacfe.Migrations
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Username = table.Column<string>(nullable: true),
                     Password = table.Column<string>(nullable: true),
                     FirstName = table.Column<string>(nullable: true),
@@ -44,7 +45,7 @@ namespace smartacfe.Migrations
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ACDeviceID = table.Column<int>(nullable: false),
                     Temperature = table.Column<decimal>(nullable: false),
                     COLevel = table.Column<decimal>(nullable: false),
@@ -70,10 +71,17 @@ namespace smartacfe.Migrations
                 column: "ACDeviceID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ACDevices_SerialNumber",
+                table: "ACDevices",
+                column: "SerialNumber",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Users_Username",
                 table: "Users",
                 column: "Username",
-                unique: true);
+                unique: true,
+                filter: "[Username] IS NOT NULL");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
