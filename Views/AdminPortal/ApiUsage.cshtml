@@ -1,0 +1,83 @@
+﻿@{
+    ViewBag.Title = "API Usage";
+    Layout = "_Layout";
+}
+
+<h1>Smart AC Usage</h1>
+<h3>Registering your device</h3>
+<p>Before a smart ac unit can send data readings to the Smart AC system, it must register itself and get an access key.</p>
+<p>
+    To register, send an HTTP POST, with the Serial Number and Firmware version.  If the device is successfully registered, the response will contain an access key that must be used when sending readings.
+</p>
+<p>Example request:
+    <code style="white-space: nowrap">
+        curl 'https://f5hzniyb85.execute-api.us-east-1.amazonaws.com/smartac_dev/api/register/' -X POST --data '{"serial_number": SERIAL_NUMBER, "firmware_version": FIRMWARE_VERSION}'
+    </code>
+</p>
+
+<p>Example response:</p>
+<code style="white-space: nowrap">
+<pre>
+{
+    "response": "success",
+    "device": {
+            "serial_number": SERIAL_NUMBER,
+            "firmware_version": FIRMWARE_VERSION,
+            "registration_date": "YYYY-MM-DD",
+            "access_key": YOUR_NEW_ACCESS_KEY
+    }
+}
+</pre>
+</code>
+
+<h3>Recording Readings</h3>
+<p>After the device has been registered, it can start sending readings.</p>
+<p>To record data for the device send an HTTP POST with the data in a JSON array.</p>
+<p>Example request:
+    <code style="white-space: nowrap">
+        curl 'https://f5hzniyb85.execute-api.us-east-1.amazonaws.com/smartac_dev/api/reading' -X POST -H 'x-access-key: YOUR_ACCESS_KEY' -d @@readingdata.json
+    </code>
+</p>
+<p>Example request body / readingdata.json</p>
+<pre>
+[
+    {
+        "temperature": 22.32,
+        "co_level": 10,
+        "health_status": "ONLINE",
+        "humidity": 10.43,
+        "timestamp": "2019-07-12T12:01:00Z"
+    },
+    {
+        "temperature": 25.00,
+        "co_level": 12,
+        "health_status": "ERROR",
+        "humidity": 10.43,
+        "timestamp": "2019-07-12T12:01:01Z"
+    },
+        {
+        "temperature": 22.31,
+        "co_level": 10,
+        "health_status": "HEALTHY",
+        "humidity": 10.43,
+        "timestamp": "2019-07-12T12:01:00Z"
+    },
+]
+</pre>
+<h5>Field Definition</h5>
+ <dl class="dl-horizontal">
+    <dt>temperature</dt>
+    <dd>Decimal: Temperature in Celsius</dd>
+
+    <dt>humidity</dt>
+    <dd>Decimal: Air humidity percentage.  Don't include the % character</dd>
+
+    <dt>co_level</dt>
+    <dd>Carbon Monoxide Levels, PPM</dd>
+
+    <dt>health_status</dt>
+    <dd>String, up to 150 characters, representing the status of the device</dd>
+
+    <dt>timestamp</dt>
+    <dd>ISO formatted time of the reading.</dd>
+</dl>
