@@ -2,7 +2,12 @@
 
 Create a proof of concept for Smart AC Devices.  These devices have sensors for Temperature, CO Levels, Humidity and a General Health Status.  The devices need to send these readings, either one at a time or as part of a batch, to a central locations.  This Prototype exposes an HTTP API for these smart devices and provides an admin dashboard for users to view the devices and their stats.
 
-# Completed Requirements
+## Evolution of the project.
+Pretty much everything is "happy path" with not a lot of UX or Data validation testing.  I had originally thought to use Python/Django/Postgres/AWS Lambda, but since I was being evaluated on C# I switched to .net core 2.0.  It took quite a bit of patience to get the initial setup in azure working and connecting to the database.  I had initially though it would make sense to use Azure Function Apps for the Device API.  Developing the function app was really straight forward and worked well enough, but I opted to scrap it.  I didn't like how it created the URLs.  Debugging and troubleshooting the Function Apps was also painful.  The final api is just a controller in the asp.net project.
+
+Once things were setup in Azure, the process felt pretty natural and honestly was kind of refreshing to be back in .NET land.  Most of the FE is developed just using server side rendering and Bootstrap/JQuery.  With the introduction of the Notification System, I think it would be much better developed using a proper frontend framework like React, which can handle state management properly.  I didn't have time to do all the requirements.  I've outlined below what I believe is complete and what is missing.  Back in the day, the asp.net starter template included all the user management stuff.  I couldn't find such a thing for asp.net core mvc.  I felt that the other requirements for this prototype were more important that user management.
+
+## Completed Requirements
 - API:  Register Devices.  Records 1 or more Readings. The complete api usage can be found at [https://smartacfe2.azurewebsites.net/api](https://smartacfe2.azurewebsites.net/api)
 - Web App  [https://smartacfe2.azurewebsites.net/AdminPanel](https://smartacfe2.azurewebsites.net/AdminPanel/)
 	- Login / Out  [https://smartacfe2.azurewebsites.net/Account/Login](https://smartacfe2.azurewebsites.net/Account/Login)
@@ -11,12 +16,12 @@ Create a proof of concept for Smart AC Devices.  These devices have sensors for 
 	- View Device Details.  Show's the latest reading as well as trend graphs for the Temperature, Humidity and CO Levels
 	- Notifications.  The Web App will ping the back end every 10 seconds and display any uncleared notifications at the top of the current page.  Notifications must be cleared or they will keep showing up.
 
-# Missing Features
+## Missing Features
 - Recovering/Resetting Passwords
 - Inviting other users.  (There is a registration feature though)
 - List users, enable/disable option
 
-# Data Definition
+## Data Definition
 ### User
 Field Name|Type|Required|Description
 -------------|------|--------|---------
@@ -63,3 +68,5 @@ A[ACDevice Reading] -- FK --> B[AC Device]
 C[ACDevice Alert] -- FK --> B[AC Device]
 U((User))
 ```
+
+
