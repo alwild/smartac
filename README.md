@@ -14,14 +14,14 @@ Given more time I'd have made 2 changes.
 ## Features and Priorities
 The features that I understand from the doc are
 1. HTTP end point(s) to collect the data. (I think these are all a Must Have)
-	A) Registration
-	B) Data collection every minute
-	C) Bulk data collection needs to be supported
+	- A) Registration
+	- B) Data collection every minute
+	- C) Bulk data collection needs to be supported
 2. Web Admin
-	A) Login and manage users. Invite other users
-	B) List and search for devices
-	C) Visualize a devices data
-	D) Notify uses based on status or CO levels.
+	- A) Login and manage users. Invite other users
+	- B) List and search for devices
+	- C) Visualize a devices data
+	- D) Notify uses based on status or CO levels.
 I'd prioritize these like this.
 #### Priorities
 1 (we should have all of this)
