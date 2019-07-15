@@ -7,6 +7,10 @@ Pretty much everything is "happy path" with not a lot of UX or Data validation t
 
 Once things were setup in Azure, the process felt pretty natural and honestly was kind of refreshing to be back in .NET land.  Most of the FE is developed just using server side rendering and Bootstrap/JQuery.  With the introduction of the Notification System, I think it would be much better developed using a proper frontend framework like React, which can handle state management properly.  I didn't have time to do all the requirements.  I've outlined below what I believe is complete and what is missing.  Back in the day, the asp.net starter template included all the user management stuff.  I couldn't find such a thing for asp.net core mvc.  I felt that the other requirements for this prototype were more important that user management.
 
+Given more time I'd have made 2 changes.
+1.  Flesh out the User Management (see Missing Features)
+2. Use React for the front end.
+
 ## Features and Priorities
 The features that I understand from the doc are
 1. HTTP end point(s) to collect the data. (I think these are all a Must Have)
